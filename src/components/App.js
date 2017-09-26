@@ -13,7 +13,7 @@ class App extends Component {
     }
 }
 
-function mapStateToProps (calendar) {
+function mapStateToProps (calendar, food) {
     const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
     return {
@@ -30,7 +30,7 @@ function mapStateToProps (calendar) {
     }
 }
 
-function mapDispatchToProps( dispatch ) {
+function mapDispatchToProps( dispatch, food ) {
     return {
         selectRecipe: (data) => dispatch(addRecipe(data)),
         removeFromCalendar: (data) => dispatch(removeFromCalendar(data))
