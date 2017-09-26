@@ -1,21 +1,46 @@
-import React, { Component } from 'react';
-import logo from '../logo.svg';
-import '../App.css';
+import React, { Component } from 'react'
+import { addRecipe } from '../actions'
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    state = {
+        calendar: null
+    }
+    componentDidMount () {
+        const { store } = this.props
+
+        store.subscribe(() => {
+            this.setState(() => ({
+                calendar: store.getState()
+            }))
+        })
+    }
+    submitFood = () => {
+        this.props.store.dispatch(addRecipe({
+            day: 'monday',
+            meal: 'breakfast',
+            recipe: {
+                label: this.input.value
+            },
+        }))
+
+        this.input.value = ''
+    }
+    render() {
+        return (
+            <div>
+                <input
+                    type='text'
+                    ref={(input) => this.input = input}
+                    placeholder="Monday's Breakfast"
+                />
+                <button onClick={this.submitFood}>Submit</button>
+
+                <pre>
+          Monday's Breakfast: {this.state.calendar && this.state.calendar.monday.breakfast}
+        </pre>
+            </div>
+        )
+    }
 }
 
-export default App;
+export default App
